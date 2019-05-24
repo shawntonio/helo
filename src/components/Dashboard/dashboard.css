@@ -1,0 +1,10 @@
+.box-model {
+	margin: 50px;
+	border: solid;
+	padding: 50px;
+	box-sizing: border-box;
+}
+
+.float-display-parent {
+
+}
