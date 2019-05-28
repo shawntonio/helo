@@ -12,7 +12,10 @@ app.use(express.json())
 app.use(session({
 	secret: SESSION_SECRET,
 	resave: false,
-	saveUninitialized: true
+	saveUninitialized: true,
+	cookie: {
+		maxAge: 1000 * 60 * 60 * 24
+	}
 }))
 
 massive(CONNECTION_STRING).then(db => {
@@ -21,3 +24,4 @@ massive(CONNECTION_STRING).then(db => {
 })
 
 app.post('/auth', Controller.register)
+app.post('/auth/login', Controller.login)

@@ -14,11 +14,21 @@ module.exports = {
 
 	},
 
-	login(req, res) {
+	async login(req, res) {
 		const db = req.app.get('db');
 		const { username, password } = req.body;
 
-		db.checkForUser({username})
+		const userFound = await db.getUser({username})
+		const user = userFound[0]
+
+		if (!user) res.sendStatus(500)
+
+		if (user.password = password) {
+			req.session.id = user.id
+			res.status(200).send({username, id: user.id, profile_pic: user.profile_pic})
+		} else {
+			res.sendStatus(500)
+		}
 	}
 
 }

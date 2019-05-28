@@ -1,10 +1,12 @@
 import React from 'react';
 import {withRouter, Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 function Nav(props) {
 	if (props.location.pathname !== '/') {
 		return (
 			<div>
+				{props.loading ? <p>...loading</p> : <h3>{props.username}</h3>}
 				<Link to='/dashboard'>
 					<button>Home</button>
 				</Link>
@@ -18,5 +20,9 @@ function Nav(props) {
 		)
 	} else return <></>
 }
+const mapStateToProps = state => {
+	const {username, loading} = state
+	return {username, loading}
+}
 
-export default withRouter(Nav)
+export default connect(mapStateToProps)(withRouter(Nav))

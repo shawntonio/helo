@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Axios from 'axios';
+import {connect} from 'react-redux';
+import {updateUser} from '../../redux/reducer';
 
 function Auth(props) {
 
@@ -8,7 +10,18 @@ function Auth(props) {
 
 	const register = () => {
 		Axios.post('/auth', { username, password })
-			.then(() => props.history.push('/dashboard'))
+			.then(res => {
+				props.updateUser(username, res.data.id)
+				props.history.push('/dashboard')
+			})
+			.catch(err => console.log(err))
+	}
+	const login = () => {
+		Axios.post('/auth/login', { username, password })
+			.then(res => {
+				props.updateUser(username, res.data.id)
+				props.history.push('/dashboard')
+			})
 			.catch(err => console.log(err))
 	}
 
@@ -23,11 +36,14 @@ function Auth(props) {
 				<input id="password" type="text" onChange={(e) => setPassword(e.target.value)} />
 			</div>
 			<div className="login-buttons">
-				<button>Log in</button>
+				<button onClick={login}>Log in</button>
 				<button onClick={register}>Register</button>
 			</div>
 		</div>
 	)
 }
+const mapDispatchToProps = {
+	updateUser
+}
 
-export default Auth
+export default connect(null, mapDispatchToProps)(Auth)
