@@ -8,7 +8,7 @@ module.exports = {
 		db.createUser({ username, password, profile_pic })
 		.then(userId => {
 			const id = userId[0].id
-			req.session.id = id
+			req.session.user = {id, username}
 			res.status(200).send({ username, id, profile_pic })
 		}).catch(err => console.log(err))
 
@@ -24,11 +24,35 @@ module.exports = {
 		if (!user) res.sendStatus(500)
 
 		if (user.password = password) {
-			req.session.id = user.id
+			req.session.user = {id: user.id, username}
+			console.log(req.session.user)
 			res.status(200).send({username, id: user.id, profile_pic: user.profile_pic})
 		} else {
 			res.sendStatus(500)
 		}
+	},
+
+	addPost(req, res) {
+		const db = req.app.get('db')
+		const {title, content} = req.body
+
+		db.addPost({title, content, author_id: req.session.user.id})
+		.then(id => res.status(200).send(id[0]))
+		.catch(console.log)
+	},
+
+	getPostById(req, res) {
+		const db = req.app.get('db')
+		const {id} = req.query
+
+		db.getPostById({id}).then(post => {
+			res.status(200).send(post)
+		}).catch(console.log)
+	},
+
+	getPosts(req, res) {
+		const db = req.app.get('db')
+		
 	}
 
 }

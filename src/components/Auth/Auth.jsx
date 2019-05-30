@@ -9,20 +9,12 @@ function Auth(props) {
 	const [password, setPassword] = useState('');
 
 	const register = () => {
-		Axios.post('/auth', { username, password })
-			.then(res => {
-				props.updateUser(username, res.data.id)
-				props.history.push('/dashboard')
-			})
-			.catch(err => console.log(err))
+		props.updateUser(username, password)
+		props.history.push('/dashboard')
 	}
 	const login = () => {
-		Axios.post('/auth/login', { username, password })
-			.then(res => {
-				props.updateUser(username, res.data.id)
-				props.history.push('/dashboard')
-			})
-			.catch(err => console.log(err))
+		props.updateUser(username, password)
+		props.history.push('/dashboard')
 	}
 
 	return (

@@ -6,11 +6,11 @@ function Nav(props) {
 	if (props.location.pathname !== '/') {
 		return (
 			<div>
-				{props.loading ? <p>...loading</p> : <h3>{props.username}</h3>}
+				{props.loading ? <p>...loading</p> : <h3>Hello {props.username}</h3>}
 				<Link to='/dashboard'>
 					<button>Home</button>
 				</Link>
-				<Link to='/post'>
+				<Link to='/new'>
 					<button>New Post</button>
 				</Link>
 				<Link to='/'>

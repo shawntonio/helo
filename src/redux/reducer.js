@@ -1,3 +1,5 @@
+import Axios from "axios";
+
 const initialState = {
 	username: '',
 	user_id: null,
@@ -7,26 +9,29 @@ const initialState = {
 
 export const UPDATE_USER = 'UPDATE_USER';
 
-export const updateUser = (username, user_id) => {
+export function updateUser(username, password) {
+	const user = Axios.post('/auth/login', { username, password })
 	return {
 		type: UPDATE_USER,
-		payload: {username, user_id}
+		payload: user
 	}
 }
 
-export default function reducer(state = initialState, {type, payload}) {
-	switch(type) {
+export default (state = initialState, action) => {
+	const { type, payload } = action
+	switch (type) {
 		case `${UPDATE_USER}_PENDING`:
 			return {
 				...state,
 				loading: true
-			}
+			};
 		case `${UPDATE_USER}_FULFILLED`:
 			return {
 				...state,
-				...payload,
+				username: payload.data.username,
+				user_id: payload.data.user_id,
 				loading: false
-			}
+			};
 		default:
 			return state;
 	}
