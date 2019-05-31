@@ -29,3 +29,5 @@ app.post('/auth/login', Controller.login)
 
 app.post('/api/post', authMiddleware.authorize, Controller.addPost)
 app.get('/api/post', authMiddleware.authorize, Controller.getPostById)
+app.get('/api/myposts', Controller.getMyPosts)
+app.get('/api/othersposts', Controller.getOthersPosts)

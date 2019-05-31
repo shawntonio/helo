@@ -50,9 +50,19 @@ module.exports = {
 		}).catch(console.log)
 	},
 
-	getPosts(req, res) {
+	getMyPosts(req, res) {
 		const db = req.app.get('db')
-		
+		const {id} = req.session.user
+
+		db.getMyPosts({id}).then(posts => res.status(200).send(posts))
+		.catch(console.log)
+	},
+
+	getOthersPosts(req, res) {
+		const db = req.app.get('db')
+		const {id} = req.session.user
+
+		db.getOthersPosts()
 	}
 
 }
