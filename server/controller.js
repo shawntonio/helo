@@ -62,7 +62,8 @@ module.exports = {
 		const db = req.app.get('db')
 		const {id} = req.session.user
 
-		db.getOthersPosts()
+		db.getOthersPosts({id}).then(posts => res.status(200).send(posts))
+		.catch(console.log)
 	}
 
 }
